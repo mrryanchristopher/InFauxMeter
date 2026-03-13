@@ -1,0 +1,5 @@
+{
+  "name": "InFauxMeter",
+  "description": "Aggregates news from mainstream and alternative sources, then uses AI to analyze bias, detect propaganda, check for AI authorship, and follow the money trail of publishers.",
+  "requestFramePermissions": []
+}
