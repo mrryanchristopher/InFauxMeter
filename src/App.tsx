@@ -66,7 +66,7 @@ export default function App() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<'All' | 'Mainstream' | 'Alternative'>('All');
+  const [filter, setFilter] = useState<'All' | 'Left' | 'Right' | 'Center' | 'Credible' | 'Moderate Credibility' | 'Low Credibility'>('All');
   
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
@@ -291,7 +291,16 @@ export default function App() {
     }
   };
 
-  const filteredArticles = articles.filter(a => filter === 'All' || a.sourceType === filter);
+  const filteredArticles = articles.filter(a => {
+    if (filter === 'All') return true;
+    if (filter === 'Left') return a.sourceBias === 'Left';
+    if (filter === 'Right') return a.sourceBias === 'Right';
+    if (filter === 'Center') return a.sourceBias === 'Center';
+    if (filter === 'Credible') return a.sourceCredibility === 'High';
+    if (filter === 'Moderate Credibility') return a.sourceCredibility === 'Mixed';
+    if (filter === 'Low Credibility') return a.sourceCredibility === 'Low';
+    return true;
+  });
 
   const downloadPDF = () => {
     if (!selectedArticle || !analysisResult) return;
@@ -416,8 +425,8 @@ export default function App() {
           </div>
           
           <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-            <div className="flex items-center gap-2 bg-zinc-900 p-1 rounded-lg border border-zinc-800 overflow-x-auto hide-scrollbar">
-              {['All', 'Mainstream', 'Alternative'].map(f => (
+            <div className="flex items-center gap-2 bg-zinc-900 p-1 rounded-lg border border-zinc-800 overflow-x-auto hide-scrollbar max-w-full">
+              {['All', 'Left', 'Center', 'Right', 'Credible', 'Moderate Credibility', 'Low Credibility'].map(f => (
                 <button
                   key={f}
                   onClick={() => setFilter(f as any)}
