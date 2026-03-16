@@ -21,7 +21,7 @@ const NEWS_SOURCES = [
   { id: 'fox', name: 'Fox News', url: 'https://moxie.foxnews.com/google-publisher/latest.xml', type: 'Mainstream', bias: 'Right', credibility: 'Mixed' },
   { id: 'bbc', name: 'BBC News', url: 'http://feeds.bbci.co.uk/news/rss.xml', type: 'Mainstream', bias: 'Center', credibility: 'High' },
   { id: 'nyt', name: 'New York Times', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', type: 'Mainstream', bias: 'Left', credibility: 'High' },
-  { id: 'reuters', name: 'Reuters', url: 'https://www.reutersagency.com/feed/', url_alt: 'https://www.reuters.com/rssFeed/topNews', type: 'Mainstream', bias: 'Center', credibility: 'High' },
+  { id: 'reuters', name: 'Reuters', url: 'https://news.google.com/rss/search?q=when:24h+source:Reuters&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'High' },
   { id: 'ap', name: 'Associated Press', url: 'https://news.google.com/rss/search?q=when:24h+source:Associated_Press&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'High' },
   { id: 'intercept', name: 'The Intercept', url: 'https://theintercept.com/feed/?lang=en', type: 'Alternative', bias: 'Left', credibility: 'High' },
   { id: 'propublica', name: 'ProPublica', url: 'https://www.propublica.org/feeds/propublica/main', type: 'Alternative', bias: 'Left', credibility: 'High' },
@@ -30,7 +30,7 @@ const NEWS_SOURCES = [
   { id: 'breitbart', name: 'Breitbart', url: 'https://www.breitbart.com/feed/', type: 'Alternative', bias: 'Right', credibility: 'Mixed' },
   { id: 'jacobin', name: 'Jacobin', url: 'https://jacobin.com/feed', type: 'Alternative', bias: 'Left', credibility: 'High' },
   { id: 'aljazeera', name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml', type: 'Mainstream', bias: 'Center', credibility: 'High' },
-  { id: 'epoch', name: 'Epoch Times', url: 'https://www.theepochtimes.com/feed', type: 'Alternative', bias: 'Right', credibility: 'Mixed' },
+  { id: 'epoch', name: 'Epoch Times', url: 'https://news.google.com/rss/search?q=when:24h+source:The_Epoch_Times&hl=en-US&gl=US&ceid=US:en', type: 'Alternative', bias: 'Right', credibility: 'Mixed' },
 ];
 
 app.get("/api/sources", (req, res) => {
