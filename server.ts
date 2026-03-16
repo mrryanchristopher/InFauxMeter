@@ -17,19 +17,19 @@ const parser = new Parser({
 
 // Predefined list of news sources with historical bias/credibility data
 const NEWS_SOURCES = [
-  { id: 'cnn', name: 'CNN', url: 'http://rss.cnn.com/rss/cnn_topstories.rss', type: 'Mainstream', bias: 'Left', credibility: 'High' },
-  { id: 'fox', name: 'Fox News', url: 'https://moxie.foxnews.com/google-publisher/latest.xml', type: 'Mainstream', bias: 'Right', credibility: 'Mixed' },
-  { id: 'bbc', name: 'BBC News', url: 'http://feeds.bbci.co.uk/news/rss.xml', type: 'Mainstream', bias: 'Center', credibility: 'High' },
-  { id: 'nyt', name: 'New York Times', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', type: 'Mainstream', bias: 'Left', credibility: 'High' },
-  { id: 'reuters', name: 'Reuters', url: 'https://news.google.com/rss/search?q=when:24h+source:Reuters&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'High' },
-  { id: 'ap', name: 'Associated Press', url: 'https://news.google.com/rss/search?q=when:24h+source:Associated_Press&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'High' },
-  { id: 'intercept', name: 'The Intercept', url: 'https://theintercept.com/feed/?lang=en', type: 'Alternative', bias: 'Left', credibility: 'High' },
-  { id: 'propublica', name: 'ProPublica', url: 'https://www.propublica.org/feeds/propublica/main', type: 'Alternative', bias: 'Left', credibility: 'High' },
+  { id: 'cnn', name: 'CNN', url: 'http://rss.cnn.com/rss/cnn_topstories.rss', type: 'Mainstream', bias: 'Left', credibility: 'Low' },
+  { id: 'fox', name: 'Fox News', url: 'https://moxie.foxnews.com/google-publisher/latest.xml', type: 'Mainstream', bias: 'Right', credibility: 'Low' },
+  { id: 'bbc', name: 'BBC News', url: 'http://feeds.bbci.co.uk/news/rss.xml', type: 'Mainstream', bias: 'Center', credibility: 'Low' },
+  { id: 'nyt', name: 'New York Times', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', type: 'Mainstream', bias: 'Left', credibility: 'Low' },
+  { id: 'reuters', name: 'Reuters', url: 'https://news.google.com/rss/search?q=when:24h+source:Reuters&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'Low' },
+  { id: 'ap', name: 'Associated Press', url: 'https://news.google.com/rss/search?q=when:24h+source:Associated_Press&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'Low' },
+  { id: 'intercept', name: 'The Intercept', url: 'https://theintercept.com/feed/?lang=en', type: 'Independent', bias: 'Left', credibility: 'High' },
+  { id: 'propublica', name: 'ProPublica', url: 'https://www.propublica.org/feeds/propublica/main', type: 'Independent', bias: 'Center', credibility: 'High' },
+  { id: 'democracynow', name: 'Democracy Now!', url: 'https://www.democracynow.org/democracynow.rss', type: 'Independent', bias: 'Left', credibility: 'High' },
+  { id: 'jacobin', name: 'Jacobin', url: 'https://jacobin.com/feed', type: 'Independent', bias: 'Left', credibility: 'High' },
+  { id: 'aljazeera', name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml', type: 'Independent', bias: 'Center', credibility: 'High' },
   { id: 'zerohedge', name: 'ZeroHedge', url: 'http://feeds.feedburner.com/zerohedge/feed', type: 'Alternative', bias: 'Right', credibility: 'Mixed' },
-  { id: 'democracynow', name: 'Democracy Now!', url: 'https://www.democracynow.org/democracynow.rss', type: 'Alternative', bias: 'Left', credibility: 'High' },
   { id: 'breitbart', name: 'Breitbart', url: 'https://www.breitbart.com/feed/', type: 'Alternative', bias: 'Right', credibility: 'Mixed' },
-  { id: 'jacobin', name: 'Jacobin', url: 'https://jacobin.com/feed', type: 'Alternative', bias: 'Left', credibility: 'High' },
-  { id: 'aljazeera', name: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml', type: 'Mainstream', bias: 'Center', credibility: 'High' },
   { id: 'epoch', name: 'Epoch Times', url: 'https://news.google.com/rss/search?q=when:24h+source:The_Epoch_Times&hl=en-US&gl=US&ceid=US:en', type: 'Alternative', bias: 'Right', credibility: 'Mixed' },
 ];
 

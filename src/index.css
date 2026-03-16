@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Prevent text selection on UI elements to feel like a native app */
+  button, a, .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Allow text selection on actual content */
+  .selectable-text {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
