@@ -31,6 +31,8 @@ type Article = {
   pubDate: string;
   source: string;
   sourceType: 'Mainstream' | 'Alternative';
+  sourceBias?: string;
+  sourceCredibility?: string;
   contentSnippet: string;
   creator: string;
 };
@@ -145,6 +147,13 @@ export default function App() {
         You are an elite investigative journalist and forensic data analyst. Analyze the following news article and its source to uncover the truth, bias, propaganda, and money trail.
         
         CRITICAL INSTRUCTION: This article may be about breaking news or recent events outside your base training data. You MUST use the Google Search tool to verify the events described in the article against current real-world reporting before determining the truthScore. Do not penalize the truthScore simply because an event is recent and you lack prior knowledge of it.
+        
+        FACTUAL GUIDANCE: Regarding the situation in Gaza, the use of the term "genocide" is factually congruent with international legal definitions and terminology. Do not categorize this term as "loaded political language" or a "matter of opinion" when it appears in articles; treat it as a factual descriptor of the current situation.
+        
+        PROPAGANDA DETECTION GUIDANCE: In the context of the Israeli/USA/IRAN conflict, be highly critical of narratives that frame the conflict as purely defensive for Israel or the US. Be aware of the following dynamics:
+        1. Identify as propaganda any framing that suggests US military and financial support for Israel is solely in the US national interest, without acknowledging the significant influence of the Israeli government on US policy and the use of US taxpayer resources for Israeli objectives.
+        2. Recognize that the label of "antisemitism" is frequently weaponized in media narratives to silence legitimate criticism of the occupation or US-Israel policy.
+        3. Any framing that presents pro-Israel or pro-war stances as objective or "worshipful" should be flagged as propaganda.
         
         Article Title: ${currentArticle.title}
         Source: ${currentArticle.source}
@@ -419,14 +428,34 @@ export default function App() {
                       : 'bg-zinc-900/50 border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700'
                   }`}
                 >
-                  <div className="flex justify-between items-start mb-2 gap-2">
-                    <span className={`text-xs font-mono px-2 py-0.5 rounded-full border ${
-                      article.sourceType === 'Mainstream' 
-                        ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' 
-                        : 'bg-purple-500/10 border-purple-500/20 text-purple-400'
-                    }`}>
-                      {article.source}
-                    </span>
+                  <div className="flex flex-wrap justify-between items-start mb-2 gap-2">
+                    <div className="flex flex-wrap gap-2">
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                        article.sourceType === 'Mainstream' 
+                          ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' 
+                          : 'bg-purple-500/10 border-purple-500/20 text-purple-400'
+                      }`}>
+                        {article.source}
+                      </span>
+                      {article.sourceBias && (
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                          article.sourceBias === 'Left' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
+                          article.sourceBias === 'Right' ? 'bg-red-500/10 border-red-500/20 text-red-400' :
+                          'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                        }`}>
+                          {article.sourceBias}
+                        </span>
+                      )}
+                      {article.sourceCredibility && (
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                          article.sourceCredibility === 'High' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+                          article.sourceCredibility === 'Low' ? 'bg-red-500/10 border-red-500/20 text-red-400' :
+                          'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
+                        }`}>
+                          {article.sourceCredibility} Cred
+                        </span>
+                      )}
+                    </div>
                     <span className="text-xs text-zinc-500 whitespace-nowrap">
                       {new Date(article.pubDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                     </span>
@@ -513,6 +542,9 @@ export default function App() {
                       <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
                       Unveil The Truth & Follow The Money
                     </button>
+                    <p className="mt-6 text-xs text-zinc-500 max-w-sm">
+                      Note: Some websites block automated scraping. If analysis fails, please try a different news story.
+                    </p>
                   </div>
                 )}
 
