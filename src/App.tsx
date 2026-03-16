@@ -280,7 +280,12 @@ export default function App() {
       
     } catch (err: any) {
       console.error("Analysis error:", err);
-      setAnalysisError(`Analysis failed: ${err.message}. This can happen if the site blocks scraping or the AI model encounters an error.`);
+      const errorMessage = err.message || "";
+      if (errorMessage.includes("429") || errorMessage.includes("RESOURCE_EXHAUSTED") || errorMessage.includes("quota")) {
+        setAnalysisError("The AI API quota has been exceeded. If you are the app owner, please check your Google AI Studio billing details and ensure your GEMINI_API_KEY is set correctly in Vercel.");
+      } else {
+        setAnalysisError(`Analysis failed: ${errorMessage}. This can happen if the site blocks scraping or the AI model encounters an error.`);
+      }
     } finally {
       setAnalyzing(false);
     }
