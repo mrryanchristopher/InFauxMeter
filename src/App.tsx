@@ -25,6 +25,18 @@ import {
   BookOpen
 } from 'lucide-react';
 
+// Define the interface for the Android Web2App Bridge
+declare global {
+  interface Window {
+    AndroidBridge?: {
+      showPaywall: () => void;
+      restorePurchases: () => void;
+    };
+    // Android will call this function to update the React state
+    setProStatus: (isPro: boolean) => void;
+  }
+}
+
 // Initialize Gemini API
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -86,6 +98,20 @@ export default function App() {
 
   useEffect(() => {
     fetchNews();
+    
+    // Set up the global function for Android to call
+    window.setProStatus = (isPro: boolean) => {
+      console.log("Received Pro status from Android:", isPro);
+      setIsPremium(isPro);
+      if (isPro) {
+        setShowPaywall(false);
+      }
+    };
+
+    return () => {
+      // Cleanup
+      delete (window as any).setProStatus;
+    };
   }, []);
 
   useEffect(() => {
@@ -366,7 +392,12 @@ export default function App() {
                 <EyeOff className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-zinc-100">InFaux<span className="text-emerald-400">Meter</span></h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl font-bold tracking-tight text-zinc-100">InFaux<span className="text-emerald-400">Meter</span></h1>
+                  {isPremium && (
+                    <span className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider rounded">PRO</span>
+                  )}
+                </div>
                 <p className="text-xs text-zinc-400 font-mono hidden sm:block">Unveil the narrative. Follow the money.</p>
               </div>
             </div>
@@ -1104,18 +1135,36 @@ export default function App() {
               
               <button 
                 onClick={() => {
-                  // In a real Web2App scenario, this button would trigger a JavaScript Bridge 
-                  // to communicate with the native Android Google Play Billing library.
-                  // Example: window.Android.purchasePremium();
-                  alert("This would trigger Google Play Billing via the Web2App JS Bridge.");
-                  setIsPremium(true);
-                  setShowPaywall(false);
+                  if (window.AndroidBridge && window.AndroidBridge.showPaywall) {
+                    // Trigger the native RevenueCat paywall
+                    window.AndroidBridge.showPaywall();
+                  } else {
+                    // Fallback for testing in a regular browser
+                    console.log("AndroidBridge not found. Mocking successful purchase.");
+                    setIsPremium(true);
+                    setShowPaywall(false);
+                  }
                 }}
                 className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold rounded-xl transition-colors flex items-center justify-center gap-2 mb-3"
               >
                 <Lock className="w-4 h-4" /> Subscribe for $4.99/mo
               </button>
               
+              <button 
+                onClick={() => {
+                  if (window.AndroidBridge && window.AndroidBridge.restorePurchases) {
+                    window.AndroidBridge.restorePurchases();
+                  } else {
+                    console.log("AndroidBridge not found. Mocking restore.");
+                    setIsPremium(true);
+                    setShowPaywall(false);
+                  }
+                }}
+                className="w-full py-3 text-emerald-500 hover:text-emerald-400 text-sm font-medium transition-colors mb-1"
+              >
+                Restore Purchases
+              </button>
+
               <button 
                 onClick={() => setShowPaywall(false)}
                 className="w-full py-3 text-zinc-500 hover:text-zinc-300 text-sm font-medium transition-colors"
