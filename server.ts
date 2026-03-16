@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import Parser from "rss-parser";
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -45,19 +44,27 @@ app.get("/api/news", async (req, res) => {
     await Promise.allSettled(
       NEWS_SOURCES.map(async (source) => {
         try {
-          const feed = await parser.parseURL(source.url);
-            const items = feed.items.slice(0, 5).map((item: any) => ({
-              id: Buffer.from(item.link || item.guid || Math.random().toString()).toString('base64'),
-              title: item.title,
-              link: item.link,
-              pubDate: item.pubDate,
-              source: source.name,
-              sourceType: source.type,
-              sourceBias: source.bias,
-              sourceCredibility: source.credibility,
-              contentSnippet: item.contentSnippet || item.description || '',
-              creator: item.creator || item.author || 'Unknown'
-            }));
+          // Use axios with a strict timeout to prevent Vercel 10s limit crashes
+          const response = await axios.get(source.url, { 
+            timeout: 4000,
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+          });
+          const feed = await parser.parseString(response.data);
+          
+          const items = feed.items.slice(0, 5).map((item: any) => ({
+            id: btoa(encodeURIComponent(item.link || item.guid || Math.random().toString())),
+            title: item.title,
+            link: item.link,
+            pubDate: item.pubDate,
+            source: source.name,
+            sourceType: source.type,
+            sourceBias: source.bias,
+            sourceCredibility: source.credibility,
+            contentSnippet: item.contentSnippet || item.description || '',
+            creator: item.creator || item.author || 'Unknown'
+          }));
           allNews.push(...items);
         } catch (err: any) {
           console.error(`Error fetching RSS for ${source.name}:`, err.message);
@@ -86,7 +93,7 @@ app.post("/api/scrape", async (req, res) => {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       },
-      timeout: 10000
+      timeout: 8000
     });
     
     const $ = cheerio.load(response.data);
@@ -121,6 +128,7 @@ app.post("/api/scrape", async (req, res) => {
 
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
