@@ -19,7 +19,6 @@ const NEWS_SOURCES = [
   { id: 'cnn', name: 'CNN', url: 'http://rss.cnn.com/rss/cnn_topstories.rss', type: 'Mainstream', bias: 'Left', credibility: 'Low' },
   { id: 'fox', name: 'Fox News', url: 'https://moxie.foxnews.com/google-publisher/latest.xml', type: 'Mainstream', bias: 'Right', credibility: 'Low' },
   { id: 'bbc', name: 'BBC News', url: 'http://feeds.bbci.co.uk/news/rss.xml', type: 'Mainstream', bias: 'Center', credibility: 'Low' },
-  { id: 'nyt', name: 'New York Times', url: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', type: 'Mainstream', bias: 'Left', credibility: 'Low' },
   { id: 'reuters', name: 'Reuters', url: 'https://news.google.com/rss/search?q=when:24h+source:Reuters&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'Low' },
   { id: 'ap', name: 'Associated Press', url: 'https://news.google.com/rss/search?q=when:24h+source:Associated_Press&hl=en-US&gl=US&ceid=US:en', type: 'Mainstream', bias: 'Center', credibility: 'Low' },
   { id: 'intercept', name: 'The Intercept', url: 'https://theintercept.com/feed/?lang=en', type: 'Independent', bias: 'Left', credibility: 'High' },

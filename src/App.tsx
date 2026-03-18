@@ -189,6 +189,8 @@ export default function App() {
         
         CRITICAL INSTRUCTION: This article may be about breaking news or recent events outside your base training data. You MUST use the Google Search tool to verify the events described in the article against current real-world reporting before determining the truthScore. Do not penalize the truthScore simply because an event is recent and you lack prior knowledge of it.
         
+        TRUTH SCORE & ANALYSIS GUIDANCE: Be absolutely ruthless. You are actively hunting for brainwashing, propaganda, spun narratives, quotes taken out of context, political weaponization, bad reporting, and entirely made-up stories. "Truth" is not just "did this event happen", but "is this article telling the whole truth without manipulation". If an article contains untruthful claims, manipulative framing, omits crucial context, uses loaded language, or comes from a compromised source (List 1), the truthScore MUST be severely penalized (e.g., below 40). Do not default to high scores just because a core event occurred. A score above 80 should be extremely rare and reserved only for perfectly objective, independent reporting.
+        
         FACTUAL GUIDANCE: Regarding the situation in Gaza, the use of the term "genocide" is factually congruent with international legal definitions and terminology. Do not categorize this term as "loaded political language" or a "matter of opinion" when it appears in articles; treat it as a factual descriptor of the current situation.
         
         PROPAGANDA DETECTION GUIDANCE: In the context of the Israeli/USA/IRAN conflict, be highly critical of narratives that frame the conflict as purely defensive for Israel or the US. Be aware of the following dynamics:
