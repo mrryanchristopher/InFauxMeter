@@ -38,7 +38,8 @@ declare global {
 }
 
 // Initialize Gemini API
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const apiKey = process.env.GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY;
+const ai = new GoogleGenAI({ apiKey: apiKey });
 
 type Article = {
   id: string;
@@ -284,7 +285,7 @@ export default function App() {
       console.error("Analysis error:", err);
       const errorMessage = err.message || "";
       if (errorMessage.includes("429") || errorMessage.includes("RESOURCE_EXHAUSTED") || errorMessage.includes("quota")) {
-        setAnalysisError("The AI API quota has been exceeded. If you are the app owner, please check your Google AI Studio billing details and ensure your GEMINI_API_KEY is set correctly in Vercel.");
+        setAnalysisError(`API Quota Error: ${errorMessage}. Please check your Google AI Studio billing details and ensure your GEMINI_API_KEY is set correctly in Vercel.`);
       } else {
         setAnalysisError(`Analysis failed: ${errorMessage}. This can happen if the site blocks scraping or the AI model encounters an error.`);
       }
